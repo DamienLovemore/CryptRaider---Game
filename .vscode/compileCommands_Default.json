@@ -1,0 +1,106 @@
+[
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaider.Build.cs",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaider.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaider.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderCharacter.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderCharacter.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderGameMode.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderGameMode.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderProjectile.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\CryptRaiderProjectile.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\TP_PickUpComponent.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\TP_PickUpComponent.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\TP_WeaponComponent.cpp",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "D:\\Unreal Projects\\CryptRaider\\Source\\CryptRaider\\TP_WeaponComponent.h",
+		"arguments": [
+			"D:\\Visual Studio Community 2022\\VC\\Tools\\MSVC\\14.34.31933\\bin\\HostX64\\x64\\cl.exe",
+			"@D:\\Unreal Projects\\CryptRaider\\.vscode\\compileCommands_Default\\CryptRaider.255.rsp"
+		],
+		"directory": "D:\\Unreal\\UE_5.1\\Engine\\Source"
+	}
+]
