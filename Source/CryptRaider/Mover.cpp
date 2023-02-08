@@ -29,6 +29,12 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
-	UE_LOG(LogTemp, Display, TEXT("I am logging!!"));
+	//Type of component and *, mean that it is a pointer to that component type.
+	//GetOwner gets the reference to the component that owns this mover actor component.
+	AActor* owner = this->GetOwner(); 
+
+	// --Pointers e GetOwner()--
+	//%u is to format unsigned integers.(Memory positions are stored in integers)
+	UE_LOG(LogTemp, Display, TEXT("The memory address of the owner of the mover component is: {%u}"), owner);
 }
 
