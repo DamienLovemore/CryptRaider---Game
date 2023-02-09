@@ -53,5 +53,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//(Where the player is currently looking)
 	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
 	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
+
+	// --Pointers and References--
+	float Damage = 0;
+	float& DamageRef = Damage;
+	DamageRef = 5;
+	UE_LOG(LogTemp, Display, TEXT("DamageRef: %f, Damage: %f"), DamageRef, Damage);
 }
 
