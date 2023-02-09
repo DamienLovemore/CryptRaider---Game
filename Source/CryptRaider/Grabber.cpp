@@ -3,6 +3,8 @@
 
 #include "Grabber.h"
 
+#include "Engine/World.h"
+
 // Sets default values for this component's properties
 UGrabber::UGrabber()
 {
@@ -30,7 +32,16 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	FRotator cameraRotation = this->GetComponentRotation();
-	FString rotationFormatted = cameraRotation.ToCompactString();
-	UE_LOG(LogTemp, Display, TEXT("Camera rotation: {%s}"), *rotationFormatted);
+	// --Logs the current camera rotation--
+	// FString rotationFormatted = cameraRotation.ToCompactString();
+	// UE_LOG(LogTemp, Display, TEXT("Camera rotation: {%s}"), *rotationFormatted);
+
+	//Gets the world (environment) in which the objects are contained
+	UWorld* World = this->GetWorld();
+
+	//The time in seconds which the game has been played
+	//(Is paused when it is paused, and is clamped)
+	float TimePlayed = World->TimeSeconds;
+	UE_LOG(LogTemp, Display, TEXT("You've played the game for: {%f} seconds"), TimePlayed);
 }
 
