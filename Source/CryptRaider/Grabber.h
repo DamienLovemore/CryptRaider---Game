@@ -23,6 +23,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+private:
+	UPROPERTY(EditAnywhere)
+	//How far it should check for grabable objects (In cm)
+	float MaxGrabDistance = 400;
 };
