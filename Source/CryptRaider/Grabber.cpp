@@ -59,10 +59,14 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	if (PhysicsHandler == nullptr)
 		return;
 
-	//As we move around when we are grabbing a object, moves it with us and rotates it according to
-	//the camera rotation
-	FVector TargetLocation = this->GetComponentLocation() + (this->GetForwardVector() * this->HoldDist);
-	PhysicsHandler->SetTargetLocationAndRotation(TargetLocation, this->GetComponentRotation());
+	//If we are not holding anything, them does not
+	if (PhysicsHandler->GetGrabbedComponent() != nullptr)
+	{
+		//As we move around when we are grabbing a object, moves it with us and rotates it according to
+		//the camera rotation
+		FVector TargetLocation = this->GetComponentLocation() + (this->GetForwardVector() * this->HoldDist);
+		PhysicsHandler->SetTargetLocationAndRotation(TargetLocation, this->GetComponentRotation());
+	}	
 }
 
 // void UGrabber::PrintDamage(const float& Damage)
@@ -110,19 +114,38 @@ void UGrabber::Grab()
 	bool HasHit = this->GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
 
 	if (HasHit)
-	{
+	{		
+		UPrimitiveComponent *TargetObject = HitResult.GetComponent();
+		//When a object that has simulate physics is still for too long, it disables its
+		//simulate physics. So we must make sure to enable it when grabbing it
+		TargetObject->WakeAllRigidBodies();
+
 		DrawDebugSphere(this->GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::FromHex("#9b4a75"), false, 5);
-		UPrimitiveComponent *targetObject = HitResult.GetComponent();
+		
 		// When working with name if you do not want to pass anything you use NAME_None
 		// There is a same function but that does not rotate when grabbing, it is called
 		// GrabComponentAtLocation
-		PhysicsHandler->GrabComponentAtLocationWithRotation(targetObject, NAME_None, HitResult.ImpactPoint, this->GetComponentRotation());
+		PhysicsHandler->GrabComponentAtLocationWithRotation(TargetObject, NAME_None, HitResult.ImpactPoint, this->GetComponentRotation());
 	}
 }
 
 void UGrabber::Release()
 {
-	UE_LOG(LogTemp, Display, TEXT("Released grabber"));
+	//Verifies if we have a PhysicsHandler to grab and release things
+	UPhysicsHandleComponent *PhysicsHandler = this->GetPhysicsHandle();
+	if (PhysicsHandler == nullptr)
+		return;
+
+	UPrimitiveComponent* GrabedObject = PhysicsHandler->GetGrabbedComponent();
+	//Check if we are holding something
+	if(GrabedObject != nullptr)
+	{
+		//If we have grabed it for a while and not released it, its
+		//simulate physics could have got into sleep mode, so we wake it
+		GrabedObject->WakeAllRigidBodies();
+		//Drops the component that we are holding
+		PhysicsHandler->ReleaseComponent();
+	}
 }
 
 UPhysicsHandleComponent* UGrabber::GetPhysicsHandle() const
