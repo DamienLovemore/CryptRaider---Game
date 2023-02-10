@@ -90,28 +90,9 @@ void UGrabber::Grab()
 	if (PhysicsHandler == nullptr)
 		return;
 
-	// The player camera current location
-	FVector Start = this->GetComponentLocation();
-	// Gets the forward direction of the camera
-	//(Where the player is currently looking)
-	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
-	// Draws a line visible only in editor with F8
-	// for debug purposes
-	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
-	// Draws a sphere in the max distance that it can reach in the direction
-	// it is looking
-	// DrawDebugSphere(this->GetWorld(), End, 10, 10, FColor::Blue, false, 5);
-
-	// The shape to be used in the Sweep trace
-	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);
-	// Stores the hit result of Sweep trace function
+	// Stores the hit result of GetGrabbableInReach function
 	FHitResult HitResult;
-	// Detect the first collision, using a shape instead of a straight line, and with
-	// that specific trace channel.
-	// FQuat::Identity means no rotation
-	// It returns true if it has hitted anything, the information about the things it hitted
-	// is stored in the first variable
-	bool HasHit = this->GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
+	bool HasHit = this->GetGrabbableInReach(HitResult);
 
 	if (HasHit)
 	{		
@@ -157,4 +138,30 @@ UPhysicsHandleComponent* UGrabber::GetPhysicsHandle() const
 	}
 	
 	return PhysicsHandler;
+}
+
+bool UGrabber::GetGrabbableInReach(FHitResult& OutHitResult) const
+{
+	// The player camera current location
+	FVector Start = this->GetComponentLocation();
+	// Gets the forward direction of the camera
+	//(Where the player is currently looking)
+	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
+	// Draws a line visible only in editor with F8
+	// for debug purposes
+	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
+	// Draws a sphere in the max distance that it can reach in the direction
+	// it is looking
+	// DrawDebugSphere(this->GetWorld(), End, 10, 10, FColor::Blue, false, 5);
+
+	// The shape to be used in the Sweep trace
+	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);	
+	// Detect the first collision, using a shape instead of a straight line, and with
+	// that specific trace channel.
+	// FQuat::Identity means no rotation
+	// It returns true if it has hitted anything, the information about the things it hitted
+	// is stored in the first variable
+	bool HasHit = this->GetWorld()->SweepSingleByChannel(OutHitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
+	
+	return HasHit;
 }
