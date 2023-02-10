@@ -26,11 +26,7 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	//An array of actors pointers
-	TArray<AActor*> Actors;
-	//Puts all the objects that are touching the collider
-	//in the Actors variable.
-	this->GetOverlappingActors(Actors);
+	
 
 	//If the counting of elements in the array is greater them
 	//zero (not empty)
@@ -56,13 +52,36 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// 	FString ObjectName = Actors[i]->GetActorNameOrLabel();
 	// 	UE_LOG(LogTemp, Display, TEXT("This overlapped the collider: {%s}"), *ObjectName);
 	// }
-	
+
+	AActor* ObjectFound = this->GetAcceptableActor();
+	if (ObjectFound != nullptr)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Unlocking"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Relocking"));
+	}
+}
+
+AActor* UTriggerComponent::GetAcceptableActor() const
+{
+	//An array of actors pointers
+	TArray<AActor*> Actors;
+	//Puts all the objects that are touching the collider
+	//in the Actors variable.
+	this->GetOverlappingActors(Actors);
+
 	// -For range implementation--
 	for (AActor* Actor : Actors)
 	{
+		//If it has found return the one it found
 		if (Actor->ActorHasTag(this->UnlockTag))
 		{
-			UE_LOG(LogTemp, Display, TEXT("Unlocking..."));
+			return Actor;
 		}		
-	}	
+	}
+
+	//If nothing was found returns null
+	return nullptr;	
 }

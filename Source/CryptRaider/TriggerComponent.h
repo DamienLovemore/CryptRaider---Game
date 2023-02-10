@@ -26,4 +26,6 @@ public:
 private:
 	UPROPERTY(EditAnywhere)
 	FName UnlockTag;
+
+	AActor* GetAcceptableActor() const;
 };
