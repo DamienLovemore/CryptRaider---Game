@@ -7,7 +7,7 @@
 #include "Grabber.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CRYPTRAIDER_API UGrabber : public USceneComponent
 {
 	GENERATED_BODY()
@@ -30,13 +30,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	//How big is the sphere used to detect collision in our sweep trace
-	float GrabRadius = 100;
-
-	// //Normal Ref you can change the original value of it.
-	// //But Const Ref you cannot change the original value of it
-	// void PrintDamage(const float& Damage);
-	// //If you see a function that have a Reference but it is
-	// //not a const, you can pretty much assure that it is a
-	// //out parameter.
-	// bool HasDamage(float& OutDamage);
+	float GrabRadius = 100;	
 };
