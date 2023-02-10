@@ -92,6 +92,9 @@ void UGrabber::Grab()
 	//Draws a line visible only in editor with F8
 	//for debug purposes
 	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
+	//Draws a sphere in the max distance that it can reach in the direction
+	//it is looking
+	//DrawDebugSphere(this->GetWorld(), End, 10, 10, FColor::Blue, false, 5);
 
 	//The shape to be used in the Sweep trace
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);
@@ -106,9 +109,11 @@ void UGrabber::Grab()
 
 	if (HasHit)
 	{
+		//The beggin point from which it started to look for it to hit the object
+		//DrawDebugSphere(this->GetWorld(), HitResult.Location, 10, 10, FColor::Green, false, 5);
+		//Where the spheres hits the object
+		DrawDebugSphere(this->GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::FromHex("#9b4a75"), false, 5);
 		AActor* HitActor = HitResult.GetActor();
-		FString HittedObject = HitActor->GetName();
-		UE_LOG(LogTemp, Display, TEXT("I've hitted on: {%s}"), *HittedObject);
 	}
 }
 
