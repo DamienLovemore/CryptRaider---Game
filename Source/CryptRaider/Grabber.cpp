@@ -47,32 +47,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	// float TimePlayed = World->TimeSeconds;
 	// UE_LOG(LogTemp, Display, TEXT("You've played the game for: {%f} seconds"), TimePlayed);
 
-	//The player camera current location
-	FVector Start = this->GetComponentLocation();
-	//Gets the forward direction of the camera
-	//(Where the player is currently looking)
-	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
-	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
-
-	//The shape to be used in the Sweep trace
-	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);
-	//Stores the hit result of Sweep trace function
-	FHitResult HitResult;
-	//Detect the first collision, using a shape instead of a straight line, and with
-	//that specific trace channel.
-	//FQuat::Identity means no rotation
-	//It returns true if it has hitted anything, the information about the things it hitted
-	//is stored in the first variable
-	bool HasHit = this->GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
-
-	if (HasHit)
-	{
-		AActor* HitActor = HitResult.GetActor();
-		FString HittedObject = HitActor->GetName();
-		UE_LOG(LogTemp, Display, TEXT("I've hitted on: {%s}"), *HittedObject);
-	}
-	
-
 	// // --Pointers and References--
 	// float Damage;
 	// if (this->HasDamage(Damage))
@@ -100,3 +74,38 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 // 	OutDamage = 5;
 // 	return true;
 // }
+
+void UGrabber::Grab()
+{
+	//The player camera current location
+	FVector Start = this->GetComponentLocation();
+	//Gets the forward direction of the camera
+	//(Where the player is currently looking)
+	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
+	//Draws a line visible only in editor with F8
+	//for debug purposes
+	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
+
+	//The shape to be used in the Sweep trace
+	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);
+	//Stores the hit result of Sweep trace function
+	FHitResult HitResult;
+	//Detect the first collision, using a shape instead of a straight line, and with
+	//that specific trace channel.
+	//FQuat::Identity means no rotation
+	//It returns true if it has hitted anything, the information about the things it hitted
+	//is stored in the first variable
+	bool HasHit = this->GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
+
+	if (HasHit)
+	{
+		AActor* HitActor = HitResult.GetActor();
+		FString HittedObject = HitActor->GetName();
+		UE_LOG(LogTemp, Display, TEXT("I've hitted on: {%s}"), *HittedObject);
+	}
+}
+
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Display, TEXT("Released grabber"));
+}
