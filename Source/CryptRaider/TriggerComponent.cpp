@@ -25,4 +25,18 @@ void UTriggerComponent::BeginPlay()
 void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	//An array of actors pointers
+	TArray<AActor*> Actors;
+	//Puts all the objects that are touching the collider
+	//in the Actors variable.
+	this->GetOverlappingActors(Actors);
+
+	//If the counting of elements in the array is greater them
+	//zero (not empty)
+	if (Actors.Num() > 0)
+	{		
+		FString ObjectName = Actors[0]->GetActorNameOrLabel();
+		UE_LOG(LogTemp, Display, TEXT("This overlapped the collider: {%s}"), *ObjectName);
+	}
 }
