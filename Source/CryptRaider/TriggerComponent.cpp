@@ -34,9 +34,26 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 	//If the counting of elements in the array is greater them
 	//zero (not empty)
-	if (Actors.Num() > 0)
-	{		
-		FString ObjectName = Actors[0]->GetActorNameOrLabel();
+	// if (Actors.Num() > 0)
+	// {
+	// 	//--Acessing TArray values--
+	// 	FString ObjectName = Actors[0]->GetActorNameOrLabel();
+	// 	UE_LOG(LogTemp, Display, TEXT("This overlapped the collider: {%s}"), *ObjectName);
+	// }
+
+	// --While loop implementation--
+	// int32 index = 0;
+	// while(index < Actors.Num())
+	// {
+	// 	FString ObjectName = Actors[index]->GetActorNameOrLabel();
+	// 	UE_LOG(LogTemp, Display, TEXT("This overlapped the collider: {%s}"), *ObjectName);
+	// 	index++;
+	// }
+
+	for (int32 i = 0; i < Actors.Num(); i++)
+	{
+		FString ObjectName = Actors[i]->GetActorNameOrLabel();
 		UE_LOG(LogTemp, Display, TEXT("This overlapped the collider: {%s}"), *ObjectName);
 	}
+	
 }
