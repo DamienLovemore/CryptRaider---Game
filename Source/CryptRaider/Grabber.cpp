@@ -1,11 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Grabber.h"
 
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
-#include "PhysicsEngine/PhysicsHandleComponent.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -17,30 +15,19 @@ UGrabber::UGrabber()
 	// ...
 }
 
-
 // Called when the game starts
 void UGrabber::BeginPlay()
 {
-	Super::BeginPlay();
-
-	//Find a object from a specific type from that parent.
-	//(In this case the thing that handles the physics for the game)
-	UPhysicsHandleComponent* PhysicsHandler = this->GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	//Prevents us from getting a null pointer value, and trying to use it.
-	//(It would result in a crash)
-	if (PhysicsHandler != nullptr)
-	{
-		UE_LOG(LogTemp, Display, TEXT("The name of the component found: {%s}"), *PhysicsHandler->GetName());
-	}
+	Super::BeginPlay();	
 }
 
 // Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// // --Logs the current camera rotation--
-	// FRotator cameraRotation = this->GetComponentRotation();	
+	// FRotator cameraRotation = this->GetComponentRotation();
 	// // FString rotationFormatted = cameraRotation.ToCompactString();
 	// // UE_LOG(LogTemp, Display, TEXT("Camera rotation: {%s}"), *rotationFormatted);
 
@@ -67,6 +54,15 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	// // Const Refs and Out Parameters
 	// //this->PrintDamage(Damage);
 	// UE_LOG(LogTemp, Display, TEXT("Original Damage: %f"), Damage);
+
+	UPhysicsHandleComponent *PhysicsHandler = this->GetPhysicsHandle();
+	if (PhysicsHandler == nullptr)
+		return;
+
+	//As we move around when we are grabbing a object, moves it with us and rotates it according to
+	//the camera rotation
+	FVector TargetLocation = this->GetComponentLocation() + (this->GetForwardVector() * this->HoldDist);
+	PhysicsHandler->SetTargetLocationAndRotation(TargetLocation, this->GetComponentRotation());
 }
 
 // void UGrabber::PrintDamage(const float& Damage)
@@ -84,40 +80,58 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void UGrabber::Grab()
 {
-	//The player camera current location
+	UPhysicsHandleComponent *PhysicsHandler = this->GetPhysicsHandle();
+	// If there is not a PhysicsHandler them it should quit the function
+	//(It is necessary for grabing objects)
+	if (PhysicsHandler == nullptr)
+		return;
+
+	// The player camera current location
 	FVector Start = this->GetComponentLocation();
-	//Gets the forward direction of the camera
+	// Gets the forward direction of the camera
 	//(Where the player is currently looking)
 	FVector End = Start + (this->GetForwardVector() * this->MaxGrabDistance);
-	//Draws a line visible only in editor with F8
-	//for debug purposes
+	// Draws a line visible only in editor with F8
+	// for debug purposes
 	DrawDebugLine(this->GetWorld(), Start, End, FColor::FromHex("#f7afba"));
-	//Draws a sphere in the max distance that it can reach in the direction
-	//it is looking
-	//DrawDebugSphere(this->GetWorld(), End, 10, 10, FColor::Blue, false, 5);
+	// Draws a sphere in the max distance that it can reach in the direction
+	// it is looking
+	// DrawDebugSphere(this->GetWorld(), End, 10, 10, FColor::Blue, false, 5);
 
-	//The shape to be used in the Sweep trace
+	// The shape to be used in the Sweep trace
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(this->GrabRadius);
-	//Stores the hit result of Sweep trace function
+	// Stores the hit result of Sweep trace function
 	FHitResult HitResult;
-	//Detect the first collision, using a shape instead of a straight line, and with
-	//that specific trace channel.
-	//FQuat::Identity means no rotation
-	//It returns true if it has hitted anything, the information about the things it hitted
-	//is stored in the first variable
+	// Detect the first collision, using a shape instead of a straight line, and with
+	// that specific trace channel.
+	// FQuat::Identity means no rotation
+	// It returns true if it has hitted anything, the information about the things it hitted
+	// is stored in the first variable
 	bool HasHit = this->GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, Sphere);
 
 	if (HasHit)
 	{
-		//The beggin point from which it started to look for it to hit the object
-		//DrawDebugSphere(this->GetWorld(), HitResult.Location, 10, 10, FColor::Green, false, 5);
-		//Where the spheres hits the object
 		DrawDebugSphere(this->GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::FromHex("#9b4a75"), false, 5);
-		AActor* HitActor = HitResult.GetActor();
+		UPrimitiveComponent *targetObject = HitResult.GetComponent();
+		// When working with name if you do not want to pass anything you use NAME_None
+		// There is a same function but that does not rotate when grabbing, it is called
+		// GrabComponentAtLocation
+		PhysicsHandler->GrabComponentAtLocationWithRotation(targetObject, NAME_None, HitResult.ImpactPoint, this->GetComponentRotation());
 	}
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Display, TEXT("Released grabber"));
+}
+
+UPhysicsHandleComponent* UGrabber::GetPhysicsHandle() const
+{
+	UPhysicsHandleComponent *PhysicsHandler = this->GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (PhysicsHandler == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Grabber requires a UPhysicsHandleComponent."));
+	}
+	
+	return PhysicsHandler;
 }

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
 #include "Grabber.generated.h"
 
 
@@ -37,5 +39,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	//How big is the sphere used to detect collision in our sweep trace
-	float GrabRadius = 100;	
+	float GrabRadius = 100;
+
+	UPROPERTY(EditAnywhere)
+	float HoldDist = 200;
+
+	UPhysicsHandleComponent* GetPhysicsHandle() const;
 };
