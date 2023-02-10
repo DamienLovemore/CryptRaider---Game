@@ -5,6 +5,7 @@
 
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -22,10 +23,16 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	//Find a object from a specific type from that parent.
+	//(In this case the thing that handles the physics for the game)
+	UPhysicsHandleComponent* PhysicsHandler = this->GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	//Prevents us from getting a null pointer value, and trying to use it.
+	//(It would result in a crash)
+	if (PhysicsHandler != nullptr)
+	{
+		UE_LOG(LogTemp, Display, TEXT("The name of the component found: {%s}"), *PhysicsHandler->GetName());
+	}
 }
-
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

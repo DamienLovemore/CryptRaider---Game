@@ -29,6 +29,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Release();
+	
 private:
 	UPROPERTY(EditAnywhere)
 	//How far it should check for grabable objects (In cm)
