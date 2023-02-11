@@ -54,9 +54,23 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// }
 
 	AActor* ObjectFound = this->GetAcceptableActor();
-	//Unlocs the door
+	//Unlocks the door
 	if (ObjectFound != nullptr)
 	{
+		//Gets the parent of the actor (its root)
+		//Casting check if this USceneComponent is a UPrimitiveComponent, if it is
+		//return a pointer to it. If not, them returns null
+		UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(ObjectFound->GetRootComponent());
+		if (Component != nullptr)
+		{
+			//Disables its physics so it does not bounce off the wall
+			Component->SetSimulatePhysics(false);
+		}		
+		//Attach the valid object to this component (keeping its transform
+		//and scales that was used in the world, and let it fixed with the object
+		//not moving)
+		Component->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+
 		this->Mover->SetShouldMove(true);
 	}
 	//Lock the door again
