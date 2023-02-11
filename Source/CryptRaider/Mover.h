@@ -23,6 +23,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void SetShouldMove(bool ShouldMove);
+	
 private:
 	UPROPERTY(EditAnywhere)
 	//The distance which it will move
@@ -32,7 +35,6 @@ private:
 	//How many units per second it should move
 	float MoveTime = 4;
 
-	UPROPERTY(EditAnywhere)
 	//If it will move or not
 	bool ShouldMove = false;
 

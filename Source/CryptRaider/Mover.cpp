@@ -70,3 +70,10 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 	// float FloatValue = *YourFloat;
 	// UE_LOG(LogTemp, Display, TEXT("YourFloat Value: %f"), FloatValue);
 }
+
+//After the object unlock condition is met, you set it to begin moving.
+//(Parameter name changed to avoid error on same variables name)
+void UMover::SetShouldMove(bool NewShouldMove)
+{
+	this->ShouldMove = NewShouldMove;
+}

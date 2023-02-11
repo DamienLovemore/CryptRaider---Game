@@ -54,14 +54,21 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// }
 
 	AActor* ObjectFound = this->GetAcceptableActor();
+	//Unlocs the door
 	if (ObjectFound != nullptr)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Unlocking"));
+		this->Mover->SetShouldMove(true);
 	}
+	//Lock the door again
 	else
 	{
-		UE_LOG(LogTemp, Display, TEXT("Relocking"));
+		this->Mover->SetShouldMove(false);
 	}
+}
+
+void UTriggerComponent::SetMover(UMover* NewMover)
+{
+	this->Mover = NewMover;
 }
 
 AActor* UTriggerComponent::GetAcceptableActor() const
