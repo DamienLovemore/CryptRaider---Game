@@ -32,19 +32,26 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	FVector TargetLocation = this->OriginalLocation;
 	if (this->ShouldMove)
 	{
-		FVector CurrentLocation = this->GetOwner()->GetActorLocation();
-		FVector TargetLocation = this->OriginalLocation + this->MoveOffset;
-		//Calculates the speed based on the distance between the start and end locations,
-		//and the move time value.
-		float speed = FVector::Distance(OriginalLocation, TargetLocation) / this->MoveTime;
+		TargetLocation = this->OriginalLocation + this->MoveOffset;
+	}
 
-		//Calculates where it should be in this frame, until it reaches its destination
-		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, speed);
-		//Moves to the calculated new location
-		this->GetOwner()->SetActorLocation(NewLocation);
-	}	
+	FVector CurrentLocation = this->GetOwner()->GetActorLocation();	
+	// //Calculates the speed based on the distance between the start and end locations,
+	// //and the move time value.
+	// FVector::Distance(OriginalLocation, TargetLocation) / this->MoveTime;
+	//Using Move offset vector length instead of the calculation aboves, prevents dividing
+	//by zero when the end and start location are the same.
+	//(Length of a vector returns a positive integer of the distance it should go,
+	//A 0,0,-600 vector returns 600.
+	float speed = MoveOffset.Length() / this->MoveTime;
+
+	//Calculates where it should be in this frame, until it reaches its destination
+	FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, speed);
+	//Moves to the calculated new location
+	this->GetOwner()->SetActorLocation(NewLocation);
 	
 	// //Type of component and *, mean that it is a pointer to that component type.
 	// //GetOwner gets the reference to the component that owns this mover actor component.

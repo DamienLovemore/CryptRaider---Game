@@ -8,7 +8,7 @@
 
 #include "TriggerComponent.generated.h"
 
-UCLASS( Blueprintable, BlueprintType , ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CRYPTRAIDER_API UTriggerComponent : public UBoxComponent
 {
 	GENERATED_BODY()
@@ -27,6 +27,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetMover(UMover* Mover);
+	
 private:
 	UPROPERTY(EditAnywhere)
 	FName UnlockTag;

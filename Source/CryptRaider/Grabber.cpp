@@ -96,10 +96,19 @@ void UGrabber::Grab()
 	if (HasHit)
 	{		
 		UPrimitiveComponent *TargetObject = HitResult.GetComponent();
+		//If it has its Physics disabled for some reason, enable it
+		//for it to be pickupable.
+		TargetObject->SetSimulatePhysics(true);
 		//When a object that has simulate physics is still for too long, it disables its
 		//simulate physics. So we must make sure to enable it when grabbing it
 		TargetObject->WakeAllRigidBodies();
-		HitResult.GetActor()->Tags.Add("Grabbed");
+
+		AActor* HitActor = HitResult.GetActor();
+		//Signals that it is being Grabbed now
+		HitActor->Tags.Add("Grabbed");
+		//If it is stuck to something removes it from there
+		//(Being child of another component)
+		HitActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 
 		DrawDebugSphere(this->GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::FromHex("#9b4a75"), false, 5);
 		
