@@ -100,6 +100,7 @@ void UGrabber::Grab()
 		//When a object that has simulate physics is still for too long, it disables its
 		//simulate physics. So we must make sure to enable it when grabbing it
 		TargetObject->WakeAllRigidBodies();
+		HitResult.GetActor()->Tags.Add("Grabbed");
 
 		DrawDebugSphere(this->GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::FromHex("#9b4a75"), false, 5);
 		
@@ -117,13 +118,15 @@ void UGrabber::Release()
 	if (PhysicsHandler == nullptr)
 		return;
 
-	UPrimitiveComponent* GrabedObject = PhysicsHandler->GetGrabbedComponent();
+	UPrimitiveComponent *GrabedObject = PhysicsHandler->GetGrabbedComponent();
 	//Check if we are holding something
 	if(GrabedObject != nullptr)
 	{
 		//If we have grabed it for a while and not released it, its
 		//simulate physics could have got into sleep mode, so we wake it
 		GrabedObject->WakeAllRigidBodies();
+		GrabedObject->GetOwner()->Tags.Remove("Grabbed");
+
 		//Drops the component that we are holding
 		PhysicsHandler->ReleaseComponent();
 	}
