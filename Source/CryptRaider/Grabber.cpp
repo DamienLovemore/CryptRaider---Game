@@ -56,11 +56,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	// UE_LOG(LogTemp, Display, TEXT("Original Damage: %f"), Damage);
 
 	UPhysicsHandleComponent *PhysicsHandler = this->GetPhysicsHandle();
-	if (PhysicsHandler == nullptr)
-		return;
 
-	//If we are not holding anything, them does not
-	if (PhysicsHandler->GetGrabbedComponent() != nullptr)
+	//If we are not holding anything, them does not move it with us.
+	//Also verify if PhysicsHandler is not null
+	if ((PhysicsHandler) && (PhysicsHandler->GetGrabbedComponent()))
 	{
 		//As we move around when we are grabbing a object, moves it with us and rotates it according to
 		//the camera rotation
@@ -115,13 +114,12 @@ void UGrabber::Release()
 {
 	//Verifies if we have a PhysicsHandler to grab and release things
 	UPhysicsHandleComponent *PhysicsHandler = this->GetPhysicsHandle();
-	if (PhysicsHandler == nullptr)
-		return;
 
-	UPrimitiveComponent *GrabedObject = PhysicsHandler->GetGrabbedComponent();
-	//Check if we are holding something
-	if(GrabedObject != nullptr)
+	
+	//Check if we are holding something, and we have a PhysicsHandler
+	if((PhysicsHandler) && (PhysicsHandler->GetGrabbedComponent()))
 	{
+		UPrimitiveComponent *GrabedObject = PhysicsHandler->GetGrabbedComponent();
 		//If we have grabed it for a while and not released it, its
 		//simulate physics could have got into sleep mode, so we wake it
 		GrabedObject->WakeAllRigidBodies();

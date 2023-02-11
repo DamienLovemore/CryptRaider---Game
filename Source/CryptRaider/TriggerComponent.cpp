@@ -97,7 +97,9 @@ AActor* UTriggerComponent::GetAcceptableActor() const
 	for (AActor* Actor : Actors)
 	{
 		//If it has found return the one it found
-		if (Actor->ActorHasTag(this->UnlockTag))
+		//Only accept valid object (with the Unlock tag), and that
+		//it is not being held in the moment
+		if ((Actor->ActorHasTag(this->UnlockTag)) && (!Actor->ActorHasTag("Grabbed")))
 		{
 			return Actor;
 		}		
